@@ -1,4 +1,18 @@
-## Example App for Heroku
+# MemCachier Rack::Cache Example
+
+This is an example Rails app that uses
+[Rack::Cache](http://rtomayko.github.io/rack-cache/) with
+[MemCachier](http://www.memcachier.com) for caching assets. This
+example is written with Rails 3.2.
+
+You can view a working version of this app
+[here](http://memcachier-examples-rails.herokuapp.com).
+Running this app on your local machine in development will work as
+well, although then you won't be using MemCachier -- you'll be using a
+local dummy cache. MemCachier is currently only available with various
+cloud providers.
+
+## Setup
 
 ```shell
   gem install bundler

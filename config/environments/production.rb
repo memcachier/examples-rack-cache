@@ -8,6 +8,7 @@ Example::Application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
+  # Cache static assets
   config.serve_static_assets = true
 
   # Compress JavaScripts and CSS
@@ -60,14 +61,13 @@ Example::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-
+  # Configure Rack::Cache
   config.action_dispatch.rack_cache = {
                           :metastore    => Dalli::Client.new,
                           :entitystore  => 'file:tmp/cache/rack/body',
                           :allow_reload => false } # very changed
 
   config.static_cache_control = "public, max-age=2592000" # changed
-
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)

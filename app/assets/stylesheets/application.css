@@ -9,6 +9,21 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require twitter/bootstrap
  *= require_tree .
 */
+
+.brand#memcachier {
+  float:right;
+  color: black;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.1), 0px 0px 30px rgba(255, 255, 255, 0.125);
+}
+
+.brand#memcachier strong {
+  font-weight: bold;
+  font-family: HybreaLight,"Helvetica Neue",Helvetica,Arial,Geneva,sans-serif;
+}
+
+.page-header {
+  padding-bottom: 38px;
+}
+
