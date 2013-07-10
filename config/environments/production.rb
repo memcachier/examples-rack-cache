@@ -62,10 +62,12 @@ Example::Application.configure do
   config.active_support.deprecation = :notify
 
   # Configure Rack::Cache
+  client = Dalli::Client.new
   config.action_dispatch.rack_cache = {
-                          :metastore    => Dalli::Client.new,
-                          :entitystore  => 'file:tmp/cache/rack/body',
-                          :allow_reload => false } # very changed
+                          :metastore    => client,
+                          :entitystore  => client,
+                          # :entitystore  => 'file:tmp/cache/rack/body',
+                          :allow_reload => false }
 
   config.static_cache_control = "public, max-age=2592000" # changed
 
