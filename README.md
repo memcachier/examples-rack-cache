@@ -5,44 +5,47 @@ This is an example Rails app that uses
 [MemCachier](http://www.memcachier.com) for caching assets. This
 example is written with Rails 3.2.
 
+Please follow this
+[tutorial](https://devcenter.heroku.com/articles/rack-cache-memcached-rails31)
+for getting started with Rack::Cache.
+
 You can view a working version of this app
-[here](http://memcachier-examples-rails.herokuapp.com).
+[here](http://memcachier-examples-rack.herokuapp.com).
 Running this app on your local machine in development will work as
 well, although then you won't be using MemCachier -- you'll be using a
 local dummy cache. MemCachier is currently only available with various
 cloud providers.
 
-## Setup
+## Running
+
+To run this rails app, first install the needed gems.
 
 ```shell
   gem install bundler
   bundle install
 ```
 
-Then create a database and run your migrations
+Then create a database and run your migrations.
 
 ```shell
   bundle exec rake db:create
   bundle exec rake db:migrate
 ````
 
-Create your production database
+Then create your production database and precompile your assets.
 
 ```shell
   bundle exec rake db:create RAILS_ENV=production
-```
-
-```shell
   bundle exec assets:precompile
 ```
 
-Start your server
+Next, start your server.
 
 ```shell
   foreman start # production
 ```
 
-Visit http://localhost:5000 and view your logs, you should see some cache entries
+Visit http://localhost:3000 and view your logs, you should see some cache entries
 
 ```shell
     cache: [GET /assets/application-193197163ac0c1601c69cbdaf22f6ce6.css] miss, store
@@ -58,26 +61,91 @@ Refresh the page and you should see that those entries can be pulled fresh from 
     cache: [GET /assets/rails-782b548cc1ba7f898cdad2d9eb8420d2.png] fresh
 ```
 
-When you modify a file such as `app/assets/stylsheets/screen.css` and run `rake assets:precompile` and then start and stop your server, you should see that there is now a new digest for the file and it must be stored in cache again.
+When you modify a file such as `app/assets/stylsheets/application.css` and run
+`rake assets:precompile` and then start and stop your server, you should see
+that there is now a new digest for the file and it must be stored in cache
+again.
 
+## Setup MemCachier
+
+Setting up MemCachier to work in Rails is very easy. You need to make
+changes to Gemfile, production.rb, and any app code that you want
+cached. These changes are covered in detail below.
+
+### Gemfile
+
+MemCachier has been tested with the [dalli memcache
+client](https://github.com/mperham/dalli). Add the following Gem to
+your Gemfile:
+
+~~~~ .ruby
+gem 'memcachier'
+gem 'dalli'
+~~~~
+
+Then run `bundle install` as usual.
+
+Note that the `memcachier` gem simply sets the appropriate environment
+variables for Dalli. You can also do this manually in your
+production.rb file if you prefer:
+
+~~~~ .ruby
+ENV["MEMCACHE_SERVERS"] = ENV["MEMCACHIER_SERVERS"]
+ENV["MEMCACHE_USERNAME"] = ENV["MEMCACHIER_USERNAME"]
+ENV["MEMCACHE_PASSWORD"] = ENV["MEMCACHIER_PASSWORD"]
+~~~~
+
+Alternatively, you can pass these options to config.cache_store (also
+in production.rb):
+
+~~~~ .ruby
+config.cache_store = :dalli_store, ENV["MEMCACHIER_SERVERS"].split(','),
+                    {:username => ENV["MEMCACHIER_USERNAME"],
+                     :password => ENV["MEMCACHIER_PASSWORD"]}
+~~~~
+
+### production.rb
+
+Ensure that the following configuration option is set in production.rb:
+
+~~~~ .ruby
+config.cache_store = :dalli_store
+~~~~
 
 ## Rack::Cache
 
+For detailed documentation see the [Rack::Cache
+homepage](http://rtomayko.github.io/rack-cache/).
 
 ### Rack::Cache Metastore
 
-The metastore holds metadata about the objects in cache. Metastore entries are small and accessed frequently. It makes alot of sense to put this data in a fast light datastore such as Memcache
+The metastore holds metadata about the objects in cache. Metastore entries are
+small and accessed frequently. It makes alot of sense to put this data in a
+fast light datastore such as Memcache
 
 ### Rack::Cache Entitystore
 
-The entity store is where the objects get cached. Entity store objects are typically large and accessed infrequently. For that reason it might make sense to store them on disk rather than to take up a large amount of room in Memcache.
+The entity store is where the objects get cached. Entity store objects are
+typically large and accessed infrequently. For that reason it might make sense
+to store them on disk rather than to take up a large amount of room in
+Memcache.
 
+## Get involved!
 
-## Contact
+We are happy to receive bug reports, fixes, documentation enhancements,
+and other improvements.
 
-Richard Schneeman [@Schneems](http://twitter.com/schneems) for [Heroku](http://heroku.com).
+Please report bugs via the
+[github issue tracker](http://github.com/memcachier/rack-cache-demo/issues).
 
+Master [git repository](http://github.com/memcachier/rack-cache-demo):
 
-licensed under MIT License
-Copyright (c) 2012 Schneems. See LICENSE.txt for
+* `git clone git://github.com/memcachier/rack-cache-demo.git`
+
+## Licensing
+
+This library is BSD-licensed.
+
+licensed under MIT License Copyright (c) 2012 Schneems. See LICENSE.txt for
 further details.
+
