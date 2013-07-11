@@ -96,6 +96,7 @@ DEPENDENCIES
   kgio
   memcachier
   pg
+  rack-cache
   rails (~> 3.2.13)
   sqlite3
   uglifier (>= 2.1.0)
