@@ -121,7 +121,8 @@ Ensure that the following configuration option is set in production.rb:
     config.cache_store = :dalli_store
     
     # Configure Rack::Cache (rack middleware, whole page / static assets)
-    client = Dalli::Client.new
+    client = Dalli::Client.new(ENV["MEMCACHIER_SERVERS"],
+                               :value_max_bytes => 10485760)
     config.action_dispatch.rack_cache = {
       :metastore    => client,
       :entitystore  => client
