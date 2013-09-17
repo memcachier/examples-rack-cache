@@ -70,4 +70,6 @@ Example::Application.configure do
                           :allow_reload => false }
 
   config.static_cache_control = "public, max-age=2592000" # changed
+
+  config.eager_load = true
 end
