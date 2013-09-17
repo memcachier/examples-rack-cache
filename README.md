@@ -153,11 +153,11 @@ We are happy to receive bug reports, fixes, documentation enhancements,
 and other improvements.
 
 Please report bugs via the
-[github issue tracker](http://github.com/memcachier/rack-cache-demo/issues).
+[github issue tracker](http://github.com/memcachier/examples-rack-cache/issues).
 
-Master [git repository](http://github.com/memcachier/rack-cache-demo):
+Master [git repository](http://github.com/memcachier/examples-rack-cache):
 
-* `git clone git://github.com/memcachier/rack-cache-demo.git`
+* `git clone git://github.com/memcachier/examples-rack-cache.git`
 
 ## Licensing
 
