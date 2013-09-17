@@ -37,13 +37,20 @@ Then create your production database and precompile your assets.
 
 ```shell
   bundle exec rake db:create RAILS_ENV=production
-  bundle exec assets:precompile
+  bundle exec rake assets:precompile
 ```
 
-Next, start your server.
+Now start memcached locally.
 
 ```shell
-  rails s
+  memcached
+```
+
+Next, start your server. You'll want to run in production so that
+caching is enabled.
+
+```shell
+  rails s -e production
 ```
 
 Visit http://localhost:3000 and view your logs, you should see some cache entries
@@ -109,9 +116,18 @@ config.cache_store = :dalli_store, ENV["MEMCACHIER_SERVERS"].split(','),
 
 Ensure that the following configuration option is set in production.rb:
 
-~~~~ .ruby
-config.cache_store = :dalli_store
-~~~~
+    ~~~~ .ruby
+    # Configure rails caching (action, fragment)
+    config.cache_store = :dalli_store
+    
+    # Configure Rack::Cache (rack middleware, whole page / static assets)
+    client = Dalli::Client.new
+    config.action_dispatch.rack_cache = {
+      :metastore    => client,
+      :entitystore  => client
+    }
+    config.static_cache_control = "public, max-age=2592000"
+    ~~~~
 
 ## Rack::Cache
 
