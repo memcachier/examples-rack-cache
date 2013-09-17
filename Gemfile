@@ -1,5 +1,16 @@
 source 'https://rubygems.org'
 
+# ==========
+# MemCachier
+# ==========
+gem 'dalli'
+gem 'memcachier'
+# We recommend kgio for better performance.
+gem 'kgio'
+
+# =====
+# Other
+# =====
 ruby '2.0.0'
 gem 'rails', '>= 4.0.0'
 gem 'rack-cache'
@@ -14,13 +25,4 @@ group :production do
 end
 
 gem 'uglifier', '>= 2.1.0'
-
-
-# ==========
-# MemCachier
-# ==========
-# We recommend kgio for better performance.
-gem 'kgio'
-gem 'memcachier'
-gem 'dalli'
 
