@@ -3,18 +3,19 @@
 This is an example Rails app that uses
 [Rack::Cache](http://rtomayko.github.io/rack-cache/) with
 [MemCachier](http://www.memcachier.com) for caching assets. This
-example is written with Rails 3.2.
+example is written with Rails 4.0, but also runs fine with Rails 3.2.
 
 Please follow this
 [tutorial](https://devcenter.heroku.com/articles/rack-cache-memcached-rails31)
 for getting started with Rack::Cache.
 
 You can view a working version of this app
-[here](http://memcachier-examples-rack.herokuapp.com).
-Running this app on your local machine in development will work as
-well, although then you won't be using MemCachier -- you'll be using a
-local dummy cache. MemCachier is currently only available with various
-cloud providers.
+[here](http://memcachier-examples-rack.herokuapp.com) that uses
+[MemCachier on Heroku](https://addons.heroku.com/memcachier). Running
+this app on your local machine in development will work as well,
+although then you won't be using MemCachier -- you'll be using a local
+dummy cache. MemCachier is currently only available with various cloud
+providers.
 
 ## Running
 
@@ -42,7 +43,7 @@ Then create your production database and precompile your assets.
 Next, start your server.
 
 ```shell
-  foreman start # production
+  rails s
 ```
 
 Visit http://localhost:3000 and view your logs, you should see some cache entries
