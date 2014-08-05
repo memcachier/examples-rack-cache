@@ -1,0 +1,8 @@
+{
+  "name": "MemCachier Rack::Cache Example App",
+  "description": "Ruby-on-Rails (4.0) app illustrating how to use MemCachier with the Rack::Cache middleware",
+  "repository": "https://github.com/memcachier/examples-rack-cache",
+  "logo": "https://github.com/memcachier/examples-rack-cache",
+  "keywords": ["ruby", "rails", "rack", "rack::cache", "memcache", "memcachier", "caching" ],
+  "addons": [ "memcachier" ]
+}
