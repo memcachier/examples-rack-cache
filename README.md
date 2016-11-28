@@ -27,52 +27,52 @@ You can deploy this app yourself to Heroku to play with.
 
 To run this rails app, first install the needed gems.
 
-```shell
-  gem install bundler
-  bundle install
+```sh
+$ gem install bundler
+$ bundle install
 ```
 
 Then create a database and run your migrations.
 
-```shell
-  bundle exec rake db:create
-  bundle exec rake db:migrate
+```sh
+$ bundle exec rake db:create
+$ bundle exec rake db:migrate
 ````
 
 Then create your production database and precompile your assets.
 
-```shell
-  bundle exec rake db:create RAILS_ENV=production
-  bundle exec rake assets:precompile
+```sh
+$ bundle exec rake db:create RAILS_ENV=production
+$ bundle exec rake assets:precompile
 ```
 
 Now start memcached locally.
 
-```shell
-  memcached
+```sh
+$ memcached
 ```
 
 Next, start your server. You'll want to run in production so that
 caching is enabled.
 
-```shell
-  rails s -e production
+```sh
+$ rails s -e production
 ```
 
 Visit http://localhost:3000 and view your logs, you should see some cache entries
 
-```shell
-    cache: [GET /assets/application-193197163ac0c1601c69cbdaf22f6ce6.css] miss, store
-    cache: [GET /assets/application-bf044948e75c7535c35baf4b42604116.js] miss, store
-    cache: [GET /assets/rails-782b548cc1ba7f898cdad2d9eb8420d2.png] miss, store
+```sh
+cache: [GET /assets/application-193197163ac0c1601c69cbdaf22f6ce6.css] miss, store
+cache: [GET /assets/application-bf044948e75c7535c35baf4b42604116.js] miss, store
+cache: [GET /assets/rails-782b548cc1ba7f898cdad2d9eb8420d2.png] miss, store
 ```
 
 Refresh the page and you should see that those entries can be pulled fresh from cache
 
-```shell
-    cache: [GET /assets/application-193197163ac0c1601c69cbdaf22f6ce6.css] fresh
-    cache: [GET /assets/application-bf044948e75c7535c35baf4b42604116.js] fresh
-    cache: [GET /assets/rails-782b548cc1ba7f898cdad2d9eb8420d2.png] fresh
+```sh
+cache: [GET /assets/application-193197163ac0c1601c69cbdaf22f6ce6.css] fresh
+cache: [GET /assets/application-bf044948e75c7535c35baf4b42604116.js] fresh
+cache: [GET /assets/rails-782b548cc1ba7f898cdad2d9eb8420d2.png] fresh
 ```
 
 When you modify a file such as `app/assets/stylsheets/application.css` and run
@@ -92,10 +92,10 @@ MemCachier has been tested with the [dalli memcache
 client](https://github.com/mperham/dalli). Add the following Gem to
 your Gemfile:
 
-~~~~ .ruby
+```ruby
 gem 'memcachier'
 gem 'dalli'
-~~~~
+```
 
 Then run `bundle install` as usual.
 
@@ -103,38 +103,38 @@ Note that the `memcachier` gem simply sets the appropriate environment
 variables for Dalli. You can also do this manually in your
 production.rb file if you prefer:
 
-~~~~ .ruby
+```ruby
 ENV["MEMCACHE_SERVERS"] = ENV["MEMCACHIER_SERVERS"]
 ENV["MEMCACHE_USERNAME"] = ENV["MEMCACHIER_USERNAME"]
 ENV["MEMCACHE_PASSWORD"] = ENV["MEMCACHIER_PASSWORD"]
-~~~~
+```
 
 Alternatively, you can pass these options to config.cache_store (also
 in production.rb):
 
-~~~~ .ruby
+```ruby
 config.cache_store = :dalli_store, ENV["MEMCACHIER_SERVERS"].split(','),
                     {:username => ENV["MEMCACHIER_USERNAME"],
                      :password => ENV["MEMCACHIER_PASSWORD"]}
-~~~~
+```
 
 ### production.rb
 
 Ensure that the following configuration option is set in production.rb:
 
-    ~~~~ .ruby
-    # Configure rails caching (action, fragment)
-    config.cache_store = :dalli_store
-    
-    # Configure Rack::Cache (rack middleware, whole page / static assets)
-    client = Dalli::Client.new(ENV["MEMCACHIER_SERVERS"],
-                               :value_max_bytes => 10485760)
-    config.action_dispatch.rack_cache = {
-      :metastore    => client,
-      :entitystore  => client
-    }
-    config.static_cache_control = "public, max-age=2592000"
-    ~~~~
+```ruby
+# Configure rails caching (action, fragment)
+config.cache_store = :dalli_store
+
+# Configure Rack::Cache (rack middleware, whole page / static assets)
+client = Dalli::Client.new(ENV["MEMCACHIER_SERVERS"],
+                           :value_max_bytes => 10485760)
+config.action_dispatch.rack_cache = {
+  :metastore    => client,
+  :entitystore  => client
+}
+config.static_cache_control = "public, max-age=2592000"
+```
 
 ## Rack::Cache
 
@@ -170,6 +170,6 @@ Master [git repository](http://github.com/memcachier/examples-rack-cache):
 
 This library is BSD-licensed.
 
-licensed under MIT License Copyright (c) 2012 Schneems. See LICENSE.txt for
+Licensed under MIT License Copyright (c) 2012 Schneems. See LICENSE for
 further details.
 
