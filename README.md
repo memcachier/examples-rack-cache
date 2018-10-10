@@ -113,7 +113,7 @@ Alternatively, you can pass these options to config.cache_store (also
 in production.rb):
 
 ```ruby
-config.cache_store = :dalli_store, ENV["MEMCACHIER_SERVERS"].split(','),
+config.cache_store = :mem_cache_store, ENV["MEMCACHIER_SERVERS"].split(','),
                     {:username => ENV["MEMCACHIER_USERNAME"],
                      :password => ENV["MEMCACHIER_PASSWORD"]}
 ```
@@ -124,7 +124,7 @@ Ensure that the following configuration option is set in production.rb:
 
 ```ruby
 # Configure rails caching (action, fragment)
-config.cache_store = :dalli_store
+config.cache_store = :mem_cache_store
 
 # Configure Rack::Cache (rack middleware, whole page / static assets)
 client = Dalli::Client.new(ENV["MEMCACHIER_SERVERS"],
