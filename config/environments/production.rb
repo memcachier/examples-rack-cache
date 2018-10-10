@@ -23,9 +23,9 @@ Example::Application.configure do
   # --------------------------------------------------------------------------
   # MEMCACHIER
   # ----------
- 
+
   # Configure rails caching (action, fragment)
-  config.cache_store = :dalli_store
+  config.cache_store = :mem_cache_store
 
   # Configure Rack::Cache (rack middleware, whole page / static assets) (we set
   # value_max_bytes to 10MB, most memcache servers won't allow values larger
